@@ -110,8 +110,9 @@ def takecommand():
     r = sr.Recognizer()
     with sr.Microphone() as source:
         print("listening...")
-        r.pause_threshold = 1
-        audio = r.listen(source, timeout=6000, phrase_time_limit=5)
+        # r.pause_threshold = 0.8
+        # audio = r.listen(source, timeout=6000, phrase_time_limit=5)
+        audio = r.listen(source)
 
     try:
         print("Recognizing...")
@@ -119,10 +120,18 @@ def takecommand():
         print(f"user said: {query}\n")
 
     except Exception as e:
-        # speak("say that again please...")
-        return "none"
+        speak("Could not understand your audio, PLease try again!")
+        return 0
     query = query.lower()
     return query
+    
+    # import speech_recognition as sp
+
+    # # get audio from the microphone
+    # data = sp.Recognizer()
+    # with sp.Microphone() as start:
+    #     print("speak up!")
+    #     audio = data.listen(start)
 
 
 def Date():
@@ -247,6 +256,8 @@ def TaskExecution():
     # global datetime
     wish()
     while True:
+        
+        print
 
         query = takecommand()
 
@@ -275,6 +286,7 @@ def TaskExecution():
             pyautogui.hotkey('ctrl', 'esc')
             pyautogui.write('Discord')
             pyautogui.press('enter')
+            
 
         elif "open premiere pro " in query:
             speak("opening premiere pro")
@@ -316,9 +328,6 @@ def TaskExecution():
             pyautogui.write('Epic Games Launcher')
             pyautogui.press('enter')
 
-        elif "stop the music" in query or "stop" in query:
-            pyautogui.press("space")
-
         elif "open camera" in query:
             speak("Opening camera")
             cap = cv2.VideoCapture(0)
@@ -338,6 +347,17 @@ def TaskExecution():
 
             cap.release()
             cv2.destroyAllWindows()
+            
+        #     name_of_app = takecommand()
+        # elif f"open {name_of_app}" in query:
+        #     speak(f"opening {name_of_app}")
+        #     pyautogui.hotkey('ctrl', 'esc')
+        #     pyautogui.write(f'{name_of_app}')
+        #     pyautogui.press('enter')
+            
+        
+        elif "stop the music" in query or "stop" in query:
+            pyautogui.press("space")
 
 # -------------- normal --------------------- #
 
@@ -362,7 +382,7 @@ def TaskExecution():
             result = True
             while(result):
                 ret,frame = videoCaptureObject.read()
-                cv2.imwrite("D:\\CODE\\py codes\\pycharm projects\\mini\\pictures\\new_pic",frame)
+                cv2.imwrite("picture_1",frame)
                 result = False
             videoCaptureObject.release()
             cv2.destroyAllWindows()
@@ -371,9 +391,12 @@ def TaskExecution():
 
         elif "what is your name" in query or "name" in query:
             speak("My name is Mini")
+            
+        elif "who is your owner" in query or "who is your creator" in query:
+            speak("Niloy Gaji")
 
-        elif "tell me about your self" in query or "tell about you" in query:
-            speak("I am mini, I am an AI made by Niloy Gazi")
+        elif "tell me about yourself" in query or "tell about you" in query:
+            speak("I am mini, I am an AI made by Niloy Gaji, I can do lots of things like: playing musics, opening any app, telling jokes, setting alarm, auto giving message, and many more...")
 
         elif "I am going to sleep" in query or "i am going to sleep" in query:
             speak("okay")
@@ -448,60 +471,31 @@ def TaskExecution():
             # print(geo_data)
             city = geo_data['city']
 
-            # Enter your API key here
             api_key = "8ff57dd697a4cee005959fc77b5730ee"
 
-            # base_url variable to store url
             base_url = "http://api.openweathermap.org/data/2.5/weather?"
 
-            # Give city name
-            # speak("please tell the state name")
-            # tell_city = takecommand()
             city_name = city
-            # city_name = input("Enter city name : ")
 
-            # complete_url variable to store
-            # complete url address
             complete_url = base_url + "appid=" + api_key + "&q=" + city_name
 
-            # get method of requests module
-            # return response object
             response = requests.get(complete_url)
-
-            # json method of response object
-            # convert json format data into
-            # python format data
+            
             x = response.json()
 
-            # Now x contains list of nested dictionaries
-            # Check the value of "cod" key is equal to
-            # "404", means city is found otherwise,
-            # city is not found
             if x["cod"] != "404":
 
-                # store the value of "main"
-                # key in variable y
+                
                 y = x["main"]
 
-                # store the value corresponding
-                # to the "temp" key of y
                 current_temperature = y["temp"]
 
-                # store the value corresponding
-                # to the "pressure" key of y
                 current_pressure = y["pressure"]
 
-                # store the value corresponding
-                # to the "humidity" key of y
                 current_humidity = y["humidity"]
 
-                # store the value of "weather"
-                # key in variable z
                 z = x["weather"]
 
-                # store the value corresponding
-                # to the "description" key at
-                # the 0th index of z
                 weather_description = z[0]["description"]
 
                 # print following values
@@ -866,8 +860,8 @@ def TaskExecution():
         # -------------- Youtube --------------------- #
 
         elif "open youtube" in query:
-            webbrowser.open("www.youtube.com")
             speak("opening youtube")
+            webbrowser.open("www.youtube.com")
 
 
         # ------------- Spotify ----------------------#
